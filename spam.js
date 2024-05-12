@@ -8,15 +8,20 @@ class API {
     }
 
     async getResponse() {
-        console.log(`[FETCHING] API: ${this.url}`);
+        console.log(`[SPAMMER] Fetching API: ${this.url}`);
         const response = await fetch(this.url);
-        const data = await response.json();
 
-        // save the JSON data into the object.
-        this.quote = data.value;
-        console.log('🚀 ~ API ~ getResponse ~ quote:', this.quote);
+        if (response.ok) {
+            const data = await response.json();
 
-        return this.quote;
+            // save the JSON data into the object.
+            this.quote = data.value;
+            console.log('🚀 ~ API ~ getResponse ~ quote:', this.quote);
+
+            return this.quote;
+        } else {
+            throw new Error('Failed to fetch API.');
+        }
     }
 }
 
@@ -60,7 +65,6 @@ class Spammer {
     }
 
     start() {
-        console.log('starting');
         const setTimeoutWrapper = () => {
             // we need a timeout because otherwise dispatchEvent(kb) doesn't have enough time to run
             setTimeout(() => {
