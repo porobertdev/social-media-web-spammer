@@ -50,6 +50,25 @@ class Spammer {
             .then((result) => {
                 // fill the input box
                 this.input.textContent = this.msg;
+
+                // TODO: fix deleting first existing text for Whatsapp
+                // while (this.input.textContent != '') {
+                //     this.input.dispatchEvent(
+                //         new InputEvent("beforeinput", {
+                //         inputType: "deleteHardLineBackward",
+                //         bubbles: true,
+                //         cancelable: true,
+                //         }));
+                // }
+
+                this.input.dispatchEvent(
+                    new InputEvent('beforeinput', {
+                        inputType: 'insertReplacementText',
+                        data: this.input.textContent,
+                        bubbles: true,
+                        cancelable: true,
+                    })
+                );
             })
             .then((val) => {
                 // send message
