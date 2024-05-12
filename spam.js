@@ -73,7 +73,6 @@ class Spammer {
         };
 
         for (let i = 0; i < this.times; i++) {
-            console.log(this.times);
             setTimeoutWrapper();
         }
     }
@@ -101,11 +100,20 @@ class Spammer {
     }
 }
 
-const whatsapp = new Spammer(
-    'div._ak1l .x1hx0egp.x6ikm8r.x1odjw0f.x1k6rcq7.x6prxxf[contenteditable="true"]'
-);
-const telegram = new Spammer(
-    '.input-message-input.scrollable.scrollable-y.no-scrollbar'
-);
+function detectPlatform() {
+    // Thanks Stackoverflow: https://stackoverflow.com/a/16133523/21600888
+    const url = document.URL;
+    let selector;
 
-telegram.addEvent();
+    if (url.includes('whatsapp')) {
+        selector =
+            'div._ak1l .x1hx0egp.x6ikm8r.x1odjw0f.x1k6rcq7.x6prxxf[contenteditable="true"]';
+    } else if (url.includes('telegram')) {
+        selector = '.input-message-input.scrollable.scrollable-y.no-scrollbar';
+    }
+
+    return new Spammer(selector);
+}
+
+const spammer = detectPlatform();
+spammer.addEvent();
