@@ -32,8 +32,11 @@ class Spammer {
         this.selector = selector;
     }
 
+    // in milliseconds
+    speed = 500;
+
     async spam() {
-        console.log('[SPAMMER] Writing message...');
+        console.log('[SPAMMER] Writingag message...');
 
         if (this.mode == 'api') {
             await chuckAPI.getResponse();
@@ -88,7 +91,7 @@ class Spammer {
             // we need a timeout because otherwise dispatchEvent(kb) doesn't have enough time to run
             setTimeout(() => {
                 this.spam();
-            }, 1500);
+            }, this.speed);
         };
 
         for (let i = 0; i < this.times; i++) {
