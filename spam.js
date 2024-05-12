@@ -1,6 +1,12 @@
 /*
-EXAMPLE: @spam "this is a spam" 20
+EXAMPLE: @spam msg/api "message/apiName" 20 start
 */
+
+const socialMediaPlatforms = {
+    whatsapp:
+        'div._ak1l .x1hx0egp.x6ikm8r.x1odjw0f.x1k6rcq7.x6prxxf[contenteditable="true"]',
+    telegram: '.input-message-input.scrollable.scrollable-y.no-scrollbar',
+};
 
 class API {
     constructor(url) {
@@ -125,16 +131,12 @@ class Spammer {
 function detectPlatform() {
     // Thanks Stackoverflow: https://stackoverflow.com/a/16133523/21600888
     const url = document.URL;
-    let selector;
 
-    if (url.includes('whatsapp')) {
-        selector =
-            'div._ak1l .x1hx0egp.x6ikm8r.x1odjw0f.x1k6rcq7.x6prxxf[contenteditable="true"]';
-    } else if (url.includes('telegram')) {
-        selector = '.input-message-input.scrollable.scrollable-y.no-scrollbar';
-    }
+    const name = Object.keys(socialMediaPlatforms).find((name) =>
+        url.includes(name)
+    );
 
-    return new Spammer(selector);
+    return new Spammer(socialMediaPlatforms[name]);
 }
 
 const spammer = detectPlatform();
