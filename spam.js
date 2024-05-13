@@ -17,17 +17,15 @@ class API {
         console.log(`[SPAMMER] Fetching API: ${this.url}`);
         const response = await fetch(this.url);
 
-        if (response.ok) {
-            const data = await response.json();
-
-            // save the JSON data into the object.
-            this.quote = data.value;
-            console.log('🚀 ~ API ~ getResponse ~ quote:', this.quote);
-
-            return this.quote;
-        } else {
+        if (!response.ok) {
             throw new Error('Failed to fetch API.');
         }
+
+        const data = await response.json();
+
+        // save the JSON data into the object.
+        this.quote = data.value;
+        console.log('🚀 ~ API ~ getResponse ~ quote:', this.quote);
     }
 }
 
@@ -45,7 +43,9 @@ class Spammer {
         console.log('[SPAMMER] Writingag message...');
 
         if (this.mode == 'api') {
-            await chuckAPI.getResponse();
+            await chuckAPI.getResponse().catch((err) => {
+                console.error(err);
+            });
             this.msg = chuckAPI.quote;
         }
 
